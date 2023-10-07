@@ -43,7 +43,9 @@
    read-buffer-completion-ignore-case t
    completion-ignore-case t
    custom-file (concat user-emacs-directory "custom.el"))
+
   (load-file custom-file)
+  (load-file (concat user-emacs-directory "manu.el"))
 
   (blink-cursor-mode 0)
   (scroll-bar-mode 0)
