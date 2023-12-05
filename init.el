@@ -4,26 +4,19 @@
                          ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (use-package use-package
   :config
 
   (setq use-package-always-ensure t
         use-package-enable-imenu-support t))
 
-(use-package exec-path-from-shell
-  :if (memq window-system '(mac ns x))
-  :config
-  (exec-path-from-shell-initialize))
-
 (use-package emacs
   :config
 
   (setq
    fill-column 80
+   tab-width 4
+   delete-by-moving-to-trash t
    inhibit-startup-screen t
    select-enable-clipboard t
    help-window-select t
@@ -42,6 +35,7 @@
    read-file-name-completion-ignore-case t
    read-buffer-completion-ignore-case t
    completion-ignore-case t
+   org-attach-method "lns"
    custom-file (concat user-emacs-directory "custom.el"))
 
   (load-file custom-file)
@@ -65,10 +59,22 @@
   (advice-add #'indent-for-tab-command :after #'hippie-expand)
   (load-theme 'modus-vivendi)
 
+  :bind
+  ("C-x C-b" . ibuffer)
+
   :hook
   (prog-mode . display-line-numbers-mode)
   (prog-mode . electric-pair-mode)
 )
+
+(use-package dired
+  :ensure nil
+  :config
+
+  (setq insert-directory-program "gls"
+	dired-free-space nil
+	dired-auto-revert-buffer t
+	dired-listing-switches "-lh --group-directories-first"))
 
 (use-package org
   :config
@@ -126,6 +132,7 @@
   :init
   (setq evil-want-keybinding nil)
   :config
+  (evil-set-initial-state 'erc-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
@@ -147,17 +154,6 @@
 
 (use-package evil-surround
   :config (global-evil-surround-mode))
-
-(use-package dumb-jump
-  :custom (xref-show-definitions-function #'consult-xref)
-  :config
-  (setq dumb-jump-force-searcher 'rg)
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-
-(use-package expand-region)
-
-(use-package hungry-delete
-  :config (global-hungry-delete-mode))
 
 (use-package vertico
   :init (vertico-mode))
@@ -189,3 +185,8 @@
   ("C-x r b" . consult-bookmark))
 
 (use-package magit)
+
+(use-package erc-hl-nicks)
+(use-package erc
+  :config
+  (erc-update-modules))
