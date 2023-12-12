@@ -54,7 +54,7 @@
   (recentf-mode)
 
   (set-face-attribute 'default nil
-		      :font "Hack 18")
+		      :font "Hack 13")
 
   (advice-add #'indent-for-tab-command :after #'hippie-expand)
   (load-theme 'modus-vivendi)
@@ -190,3 +190,7 @@
 (use-package erc
   :config
   (erc-update-modules))
+
+(use-package pdf-tools
+  :config
+  (pdf-tools-install t))
