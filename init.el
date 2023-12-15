@@ -71,7 +71,7 @@
   :ensure nil
   :config
 
-  (setq insert-directory-program "gls"
+  (setq insert-directory-program "ls"
 	dired-free-space nil
 	dired-auto-revert-buffer t
 	dired-listing-switches "-lh --group-directories-first"))
