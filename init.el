@@ -194,11 +194,15 @@
   (erc-update-modules))
 
 (use-package pdf-tools
+  :pin manual
   :init
   (setq pdf-view-continuous nil
 	pdf-view-themed-minor-mode t)
-  :config
-  (pdf-tools-install t)
+  :mode  ("\\.pdf\\'" . pdf-view-mode)
   :bind
-  ("j" . (lambda () (interactive) (pdf-view-next-line-or-next-page 10)))
-  ("k" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 10))))
+  (:map pdf-view-mode-map
+	("j" . (lambda () (interactive) (pdf-view-next-line-or-next-page 10)))
+	("k" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 10))))
+  :config
+  (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
+  (pdf-tools-install t))
