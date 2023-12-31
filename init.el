@@ -65,6 +65,7 @@
   :hook
   (prog-mode . display-line-numbers-mode)
   (prog-mode . electric-pair-mode)
+  (modus-themes-after-load-theme . pdf-view-themed-minor-mode)
 )
 
 (use-package dired
@@ -144,7 +145,8 @@
 
   (setq evil-escape-key-sequence "jj"
         evil-escape-delay 0.2
-        evil-escape-inhibit-functions '(evil-visual-state-p))
+        evil-escape-inhibit-functions '(evil-visual-state-p)
+	evil-escape-excluded-major-modes '(pdf-view-mode))
 
   (evil-escape-mode))
 
@@ -192,5 +194,11 @@
   (erc-update-modules))
 
 (use-package pdf-tools
+  :init
+  (setq pdf-view-continuous nil
+	pdf-view-themed-minor-mode t)
   :config
-  (pdf-tools-install t))
+  (pdf-tools-install t)
+  :bind
+  ("j" . (lambda () (interactive) (pdf-view-next-line-or-next-page 10)))
+  ("k" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 10))))
