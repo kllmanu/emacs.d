@@ -136,6 +136,7 @@
   (evil-set-initial-state 'erc-mode 'emacs)
   (evil-set-initial-state 'help-mode 'emacs)
   (evil-set-initial-state 'dired-mode 'emacs)
+  (evil-set-initial-state 'rfc-mode 'emacs)
   (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
   (evil-mode))
 
@@ -146,7 +147,7 @@
   (setq evil-escape-key-sequence "jj"
         evil-escape-delay 0.2
         evil-escape-inhibit-functions '(evil-visual-state-p)
-	evil-escape-excluded-major-modes '(pdf-view-mode))
+	evil-escape-excluded-major-modes '(pdf-view-mode rfc-mode))
 
   (evil-escape-mode))
 
@@ -192,6 +193,14 @@
 (use-package erc
   :config
   (erc-update-modules))
+
+(use-package rfc-mode
+  :init
+  (setq rfc-mode-directory "~/.rfc")
+  :bind
+  (:map rfc-mode-map
+	("j" . next-line)
+	("k" . previous-line)))
 
 (use-package pdf-tools
   :pin manual
