@@ -144,9 +144,11 @@
   (org-refile-allow-creating-parent-nodes 'confirm)
   (org-outline-path-complete-in-steps nil)
 
+  (org-list-allow-alphabetical t)
   (org-confirm-babel-evaluate nil)
   (org-id-link-to-org-use-id t)
-  (org-latex-hyperref-template "\\usepackage[colorlinks=false]{hyperref}")
+  ;; (org-latex-hyperref-template "\\usepackage[colorlinks=false]{hyperref}")
+  (org-latex-hyperref-template nil)
   (org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
      "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -160,7 +162,8 @@
                                (shell . t)
                                (sql . t)
                                (sqlite . t)))
-
+  :bind
+  ("C-M-<return>" . org-meta-return)
   :hook
   (org-mode . turn-on-auto-fill)
   (org-babel-after-execute . org-redisplay-inline-images))
@@ -246,6 +249,7 @@
   :config (global-hungry-delete-mode))
 (use-package spacious-padding
   :config(spacious-padding-mode))
+(use-package ef-themes)
 
 ;;; gpt
 (use-package gptel
