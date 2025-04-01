@@ -29,6 +29,7 @@
   (vc-follow-symlinks t)
 
   ;; autosave and backup
+  (bookmark-save-flag 1)
   (version-control t)
   (delete-old-versions -1)
   (auto-save-list-file-prefix "~/.emacs.d/autosave/")
@@ -72,7 +73,7 @@
 
   (add-hook 'after-make-frame-functions
             (lambda (frame)
-              (let ((font-height (if (string= system-name "M720t") 160 130)))
+              (let ((font-height (if (string= system-name "M720t") 130 130)))
                 (with-selected-frame frame
                   (set-face-attribute 'default nil :font "Iosevka" :height font-height)))))
 
@@ -136,6 +137,17 @@
   (org-startup-indented t)
   (org-agenda-window-setup 'only-window)
   (org-src-window-setup 'current-window)
+  (org-list-allow-alphabetical t)
+
+  (org-agenda-custom-commands
+   '(("f" "Filtered Agenda"
+      agenda "" 
+      ((org-agenda-skip-function
+        (lambda ()
+          (let ((heading (org-get-heading t t t t)))
+            (if (string-match-p "business processes" (downcase heading))
+                (point)  ;; Skip this entry by returning the point
+              nil))))))))
 
   (org-archive-location "~/org/archive.org::* ARCHIVE")
   (org-agenda-files (append (directory-files-recursively "~/org" "\.org$")))
@@ -204,7 +216,7 @@
 ;;; in-buffer completion
 (use-package corfu
   :custom
-  (corfu-auto t)
+  (corfu-auto nil)
   (corfu-quit-no-match t)
   :init (global-corfu-mode))
 
